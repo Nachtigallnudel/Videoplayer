@@ -69,7 +69,24 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private Integer Vido2PositionX=800;
 	private Integer Vido2PositionY=100;
 	private Integer Vido2SizeX=1024;
-	private Integer Vido2SizeY=768;
+	private Integer Vido2SizeY=768;	
+	
+	//private Integer Vido1PositionX=0;
+	//private Integer Vido1PositionY=0;
+	//private Integer Vido1SizeX=1920;
+	//private Integer Vido1SizeY=1080;	
+	
+	//private Integer Vido2PositionX=1920;
+	//private Integer Vido2PositionY=0;
+	//private Integer Vido2SizeX=3840;
+	//private Integer Vido2SizeY=2160;
+	
+	
+	
+	
+	
+	
+	
 	
 	private JTextField TFVido1PositionX;
 	private JTextField TFVido1PositionY;
