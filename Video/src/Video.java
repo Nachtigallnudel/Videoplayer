@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 import javax.swing.SwingWorker;
 
-
+import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 
@@ -81,6 +81,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	//private Integer Vido2SizeX=3840;
 	//private Integer Vido2SizeY=2160;
 	
+	private Boolean BVideoEnd1=false;
+	private Boolean BVideoEnd2=false;
 	
 	
 	
@@ -346,7 +348,24 @@ public void actionPerformed(ActionEvent arg0) {
 		
 		// Video Play
 		
-		mediaPlayerComponent =  new EmbeddedMediaPlayerComponent();
+		mediaPlayerComponent =  new EmbeddedMediaPlayerComponent()
+		{
+			 /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			   public void finished(MediaPlayer mediaPlayer) {
+				 System.out.println("Ende Video 1"); 
+				 BVideoEnd1=true;
+				 //mediaPlayerComponent2.mediaPlayer().controls().play();
+				 checkPlay();
+			   }
+			
+		};		
+				
+				
 		String video1;
 		video1 =SHome + "\\videos\\siOvideo1.mp4";
 		Anzeige2.add(mediaPlayerComponent);		
@@ -356,7 +375,7 @@ public void actionPerformed(ActionEvent arg0) {
 		FrameVideo1.setVisible(true);
 		mediaPlayerComponent.mediaPlayer().controls().setRepeat(true);
 		mediaPlayerComponent.mediaPlayer().media().play(video1); 
-		
+		BVideoEnd1=true;
 		FrameVideo1.addKeyListener(this);
 	}
 	
@@ -373,7 +392,24 @@ public void StartVideo2() {
 		JPanel Anzeige3 = new JPanel();	
 		Anzeige3.setLayout(new BoxLayout(Anzeige3, BoxLayout.X_AXIS));		
 		// Video Play		
-		mediaPlayerComponent2 =  new EmbeddedMediaPlayerComponent();
+		mediaPlayerComponent2 =  new EmbeddedMediaPlayerComponent()
+		{
+			 /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			   public void finished(MediaPlayer mediaPlayer) {
+				 System.out.println("Ende Video 2"); 
+				 BVideoEnd2=true;
+				 //mediaPlayerComponent2.mediaPlayer().controls().pause();
+				 checkPlay();
+			   }
+			
+		};
+		
+		
 		
 		String video2;
 		video2 =SHome + "\\videos\\siOvideo2.mp4";
@@ -386,8 +422,11 @@ public void StartVideo2() {
 		
 		FrameVideo2.setVisible(true);
 		mediaPlayerComponent2.mediaPlayer().controls().setRepeat(true);
+		//mediaPlayerComponent2.mediaPlayer().audio().mute();
 		mediaPlayerComponent2.mediaPlayer().media().play(video2); 
+		BVideoEnd2=false;
 		FrameVideo2.addKeyListener(this);
+		
 		
 		
 	}
@@ -399,6 +438,24 @@ public void StopVideo() {
 	mediaPlayerComponent.mediaPlayer().controls().stop();
 	FrameVideo2.dispose();
 	FrameVideo1.dispose();
+	
+	
+}
+
+public void checkPlay() {
+	
+	
+		System.out.println("Restart Video 1&2");
+		
+		
+		
+		//mediaPlayerComponent.mediaPlayer().controls().play();		
+		//mediaPlayerComponent2.mediaPlayer().controls().play();
+		
+		
+		//BVideoEnd1=false;
+		//BVideoEnd2=false;
+	
 	
 	
 }
