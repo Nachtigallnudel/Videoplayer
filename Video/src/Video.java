@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
-
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import javax.swing.SwingWorker;
+import javax.swing.Timer;
+
 
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
@@ -84,7 +87,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private Boolean BVideoEnd1=false;
 	private Boolean BVideoEnd2=false;
 	
-	
+	private Timer TT;
+	public final static int ONE_SECOND = 50;   // Bestimmt nach dem Video wie Lange gewartet wird
 	
 	
 	
@@ -101,7 +105,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JTextField TFVido2SizeY;
 	
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent2;
-	private EmbeddedMediaPlayerComponent mediaPlayerComponent;
+	private EmbeddedMediaPlayerComponent mediaPlayerComponent1;
 	
 	
 	
@@ -185,6 +189,9 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	TFVido1PositionX=new JTextField(String.valueOf(Vido1PositionX));
 	TFVido1PositionX.setHorizontalAlignment(JTextField.CENTER);
+	TFVido1PositionX.setColumns(20);
+	
+	
 	TFVido1PositionY=new JTextField(String.valueOf(Vido1PositionY));
 	TFVido1PositionY.setHorizontalAlignment(JTextField.CENTER);
 	TFVido1SizeX=new JTextField(String.valueOf(Vido1SizeX));
@@ -194,6 +201,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	TFVido2PositionX=new JTextField(String.valueOf(Vido2PositionX));
 	TFVido2PositionX.setHorizontalAlignment(JTextField.CENTER);
+	TFVido2PositionX.setColumns(20);;
 	TFVido2PositionY=new JTextField(String.valueOf(Vido2PositionY));
 	TFVido2PositionY.setHorizontalAlignment(JTextField.CENTER);
 	TFVido2SizeX=new JTextField(String.valueOf(Vido2SizeX));
@@ -254,13 +262,33 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	System.out.println("++++++++++++++++++++++++++++++++++   Start App  ++++++++++++++++++++++++++++"); 
 	
+	TT = new Timer(ONE_SECOND, new ActionListener() {
+	    public void actionPerformed(ActionEvent evt) {
+	    	System.out.println("Timer fertig nach 1 Sekunde");
+	    	
+	    	mediaPlayerComponent1.mediaPlayer().controls().start();		
+			mediaPlayerComponent2.mediaPlayer().controls().start();
+	            TT.stop();
+	            //...GUI aktualisieren...
+	        
+	    }    
+	});
+	
+	
+	
+	
+	
 	StartVideo1();
 	StartVideo2();
 	
-		
 	
 
 	}
+	
+	
+	
+	
+	
 	
 public void actionPerformed(ActionEvent arg0) {
 		
@@ -300,19 +328,23 @@ public void actionPerformed(ActionEvent arg0) {
 	// Create and set up the window.
 	JFrame frame = new JFrame("siOPTICA 2-Video Player");
 	frame.setLayout(new FlowLayout());
-	frame.setSize(600, 600);
+	frame.setSize(600, 300);
 	//frame.addKeyListener(this);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setLocation(100, 100);	
+	frame.setLocation(100, 100);
+	
 	JComponent newContentPane = new Video();
 	newContentPane.setOpaque(true); // content panes must be opaque
 	frame.setContentPane(newContentPane);
+	frame.setResizable(false);
+	
 
 	// Display the window.
 	
 	frame.setVisible(true);
 	frame.toBack();
 	}
+	
 
 	public static void main(String[] args) {
 	// Schedule a job for the event-dispatching thread:
@@ -348,7 +380,7 @@ public void actionPerformed(ActionEvent arg0) {
 		
 		// Video Play
 		
-		mediaPlayerComponent =  new EmbeddedMediaPlayerComponent()
+		mediaPlayerComponent1 =  new EmbeddedMediaPlayerComponent()
 		{
 			 /**
 			 * 
@@ -359,7 +391,9 @@ public void actionPerformed(ActionEvent arg0) {
 			   public void finished(MediaPlayer mediaPlayer) {
 				 System.out.println("Ende Video 1"); 
 				 BVideoEnd1=true;
-				 //mediaPlayerComponent2.mediaPlayer().controls().play();
+				
+					//mediaPlayerComponent1.mediaPlayer().controls().stop();
+				
 				 checkPlay();
 			   }
 			
@@ -368,14 +402,14 @@ public void actionPerformed(ActionEvent arg0) {
 				
 		String video1;
 		video1 =SHome + "\\videos\\siOvideo1.mp4";
-		Anzeige2.add(mediaPlayerComponent);		
+		Anzeige2.add(mediaPlayerComponent1);		
 		add(Anzeige2, BorderLayout.NORTH);		
 		FrameVideo1.add(Anzeige2);
 		
 		FrameVideo1.setVisible(true);
-		mediaPlayerComponent.mediaPlayer().controls().setRepeat(true);
-		mediaPlayerComponent.mediaPlayer().media().play(video1); 
-		BVideoEnd1=true;
+		//mediaPlayerComponent1.mediaPlayer().controls().setRepeat(true);
+		mediaPlayerComponent1.mediaPlayer().media().play(video1); 
+		BVideoEnd1=false;
 		FrameVideo1.addKeyListener(this);
 	}
 	
@@ -400,10 +434,12 @@ public void StartVideo2() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			   public void finished(MediaPlayer mediaPlayer) {
+			   public void finished(MediaPlayer mediaPlayer2) {
 				 System.out.println("Ende Video 2"); 
 				 BVideoEnd2=true;
-				 //mediaPlayerComponent2.mediaPlayer().controls().pause();
+				
+					//mediaPlayerComponent2.mediaPlayer().controls().stop();
+				
 				 checkPlay();
 			   }
 			
@@ -421,7 +457,7 @@ public void StartVideo2() {
 		
 		
 		FrameVideo2.setVisible(true);
-		mediaPlayerComponent2.mediaPlayer().controls().setRepeat(true);
+		//mediaPlayerComponent2.mediaPlayer().controls().setRepeat(true);
 		//mediaPlayerComponent2.mediaPlayer().audio().mute();
 		mediaPlayerComponent2.mediaPlayer().media().play(video2); 
 		BVideoEnd2=false;
@@ -435,7 +471,7 @@ public void StopVideo() {
 	System.out.println("Stop Video 1 & 2"); 
 	
 	mediaPlayerComponent2.mediaPlayer().controls().stop();
-	mediaPlayerComponent.mediaPlayer().controls().stop();
+	mediaPlayerComponent1.mediaPlayer().controls().stop();
 	FrameVideo2.dispose();
 	FrameVideo1.dispose();
 	
@@ -445,13 +481,25 @@ public void StopVideo() {
 public void checkPlay() {
 	
 	
-		System.out.println("Restart Video 1&2");
+		System.out.println("check play");
+		System.out.println("BVideoEnd1 = " +BVideoEnd1.booleanValue());
+		System.out.println("BVideoEnd2 = " +BVideoEnd2.booleanValue());
 		
-		
-		
-		//mediaPlayerComponent.mediaPlayer().controls().play();		
-		//mediaPlayerComponent2.mediaPlayer().controls().play();
-		
+		if(BVideoEnd1.equals(true) && BVideoEnd2.equals(true))
+		{
+			System.out.println("Restart Video 1&2");
+			//mediaPlayerComponent1.mediaPlayer().controls().start();		
+			//mediaPlayerComponent2.mediaPlayer().controls().start();
+			BVideoEnd1=false;
+			BVideoEnd2=false;
+			
+			
+			TT.start();
+			 
+			  
+			
+			
+		}
 		
 		//BVideoEnd1=false;
 		//BVideoEnd2=false;
@@ -476,8 +524,10 @@ public void keyPressed(KeyEvent e) {
 	
 	if(e.getKeyCode() == KeyEvent.VK_P) {
 		System.out.println("P Play Videos"); 
-		StartVideo1();
-		StartVideo2();
+		//mediaPlayerComponent1.mediaPlayer().controls().nextFrame();	
+		//mediaPlayerComponent2.mediaPlayer().controls().nextFrame();
+		mediaPlayerComponent1.mediaPlayer().controls().start();	
+		mediaPlayerComponent2.mediaPlayer().controls().start();
 
 	}
 	
@@ -492,4 +542,7 @@ public void keyReleased(KeyEvent e) {
 	
 	
 }
+
+
+
 
