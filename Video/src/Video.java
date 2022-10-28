@@ -38,9 +38,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	public String SHome=System.getProperty("user.home");
 		
 	private JFrame FrameVideo1;	
-	private JFrame FrameVideo2;	
-	
-	
+	private JFrame FrameVideo2;
 	
 	private JButton startButton;
 	private JButton startButton2;
@@ -57,11 +55,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	private JLabel LVideo1;
 	private JLabel LVideo2;
-	
-	
-	
-	
-	
+	private JLabel LPlatzhalter;
+	private JLabel LPlatzhalter2;
 	
 	private Integer Vido1PositionX=0;
 	private Integer Vido1PositionY=0;
@@ -73,25 +68,12 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private Integer Vido2SizeX=3840;
 	private Integer Vido2SizeY=2160;	
 	
-	//private Integer Vido1PositionX=0;
-	//private Integer Vido1PositionY=0;
-	//private Integer Vido1SizeX=1920;
-	//private Integer Vido1SizeY=1080;	
-	
-	//private Integer Vido2PositionX=1920;
-	//private Integer Vido2PositionY=0;
-	//private Integer Vido2SizeX=3840;
-	//private Integer Vido2SizeY=2160;
-	
+		
 	private Boolean BVideoEnd1=false;
 	private Boolean BVideoEnd2=false;
 	
 	private Timer TT;
 	public final static int ONE_SECOND = 50;   // Bestimmt nach dem Video wie Lange gewartet wird
-	
-	
-	
-	
 	
 	private JTextField TFVido1PositionX;
 	private JTextField TFVido1PositionY;
@@ -105,26 +87,6 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent2;
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent1;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	class Task extends SwingWorker<Void, Void> {
 		/*
@@ -159,16 +121,17 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
     setFocusable(true);
     setFocusTraversalKeysEnabled(false);
 	
-	startButton = new JButton("Play Videos ");
+	startButton = new JButton("++++++++++++     Play Videos     +++++++++++ ");
 	startButton.setActionCommand("start");
 	startButton.addActionListener(this);
 	startButton.setSize(200, 30);
 	
 	
-	startButton2 = new JButton("Stop Videos ");
+	startButton2 = new JButton("++++++++++++     Stop Videos     +++++++++++ ");
 	startButton2.setActionCommand("start2");
 	startButton2.addActionListener(this);
-	startButton.setSize(200, 10);
+	startButton2.setSize(300, 30);
+	startButton2.setSize(300, 5);;
 	
 	
 	
@@ -182,6 +145,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	LVido2PositionY = new JLabel("Position - Y");
 	LVido2SizeX = new JLabel("Video Width");
 	LVido2SizeY = new JLabel("Video High");
+	LPlatzhalter = new JLabel("-");
+	LPlatzhalter2 = new JLabel("-");
 	
 	LVideo1 = new JLabel("Video1: //videos/siOvideo1.mp4");
 	LVideo2 = new JLabel("Video2: //videos/siOvideo2.mp4");
@@ -218,18 +183,20 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 		
 	JPanel Links = new JPanel();
 	JPanel Rechts = new JPanel();
-	JPanel Unten = new JPanel();
+	JPanel unten = new JPanel();
 	
 	Links.setLayout(new BoxLayout(Links, BoxLayout.Y_AXIS));
+	//Links.
 	Rechts.setLayout(new BoxLayout(Rechts, BoxLayout.Y_AXIS));
-	Unten.setLayout(new BoxLayout(Unten, BoxLayout.X_AXIS));
-	
+	unten.setLayout(new BoxLayout(unten, BoxLayout.X_AXIS));
+	unten.setAlignmentX(CENTER_ALIGNMENT);
+	//LL.getcsetSize(200, 50);
 	//LCompany.setHorizontalAlignment(ABORT);
 	
 	
 	
-	Unten.add(startButton);
-	Unten.add(startButton2);
+	unten.add(startButton);
+	unten.add(startButton2);
 	
 	
 	Links.add(LVideo1);
@@ -241,6 +208,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Links.add(TFVido1SizeX);
 	Links.add(LVido1SizeY);
 	Links.add(TFVido1SizeY);
+	Links.add(LPlatzhalter);
+	
 	
 	Rechts.add(LVideo2);	
 	Rechts.add(LVido2PositionX);
@@ -251,12 +220,14 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Rechts.add(TFVido2SizeX);
 	Rechts.add(LVido2SizeY);
 	Rechts.add(TFVido2SizeY);
+	Rechts.add(LPlatzhalter2);
 	
 	
 	
-	add(Unten,BorderLayout.SOUTH);
+	//add(Unten,BorderLayout.SOUTH);
 	add(Links, BorderLayout.WEST);
 	add(Rechts, BorderLayout.EAST);
+	add(unten,BorderLayout.SOUTH);
 	
 	
 	System.out.println("++++++++++++++++++++++++++++++++++   Start App  ++++++++++++++++++++++++++++"); 
