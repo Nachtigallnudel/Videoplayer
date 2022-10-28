@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,15 +63,15 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	
 	
-	private Integer Vido1PositionX=100;
-	private Integer Vido1PositionY=100;
-	private Integer Vido1SizeX=400;
-	private Integer Vido1SizeY=300;
+	private Integer Vido1PositionX=0;
+	private Integer Vido1PositionY=0;
+	private Integer Vido1SizeX=1920;
+	private Integer Vido1SizeY=1080;
 	
-	private Integer Vido2PositionX=800;
-	private Integer Vido2PositionY=100;
-	private Integer Vido2SizeX=1024;
-	private Integer Vido2SizeY=768;	
+	private Integer Vido2PositionX=1920;
+	private Integer Vido2PositionY=0;
+	private Integer Vido2SizeX=3840;
+	private Integer Vido2SizeY=2160;	
 	
 	//private Integer Vido1PositionX=0;
 	//private Integer Vido1PositionY=0;
@@ -264,7 +263,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	TT = new Timer(ONE_SECOND, new ActionListener() {
 	    public void actionPerformed(ActionEvent evt) {
-	    	System.out.println("Timer fertig nach 1 Sekunde");
+	    	System.out.println("Timer fertig nach 50 ms");
 	    	
 	    	mediaPlayerComponent1.mediaPlayer().controls().start();		
 			mediaPlayerComponent2.mediaPlayer().controls().start();
