@@ -95,8 +95,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 		@Override
 		public Void doInBackground() {
 			
-			//testFrame10() ;
-			//set_Image();
+			
 		  return null;
 		}
 	
