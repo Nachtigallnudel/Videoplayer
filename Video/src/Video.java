@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -57,16 +58,17 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JLabel LVideo2;
 	private JLabel LPlatzhalter;
 	private JLabel LPlatzhalter2;
+	private JLabel LPlatzhalter3;
 	
 	private Integer Vido1PositionX=0;
 	private Integer Vido1PositionY=0;
 	private Integer Vido1SizeX=1920;
 	private Integer Vido1SizeY=1080;
 	
-	private Integer Vido2PositionX=1920;
-	private Integer Vido2PositionY=0;
-	private Integer Vido2SizeX=3840;
-	private Integer Vido2SizeY=2160;	
+	private Integer Vido2PositionX=100;
+	private Integer Vido2PositionY=100;
+	private Integer Vido2SizeX=400	;
+	private Integer Vido2SizeY=300;	
 	
 		
 	private Boolean BVideoEnd1=false;
@@ -84,6 +86,11 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JTextField TFVido2PositionY;
 	private JTextField TFVido2SizeX;
 	private JTextField TFVido2SizeY;
+	
+	private JCheckBox CBTasten;
+	private JCheckBox CBTasten2;
+	
+	
 	
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent2;
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent1;
@@ -146,6 +153,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	LVido2SizeY = new JLabel("Video High");
 	LPlatzhalter = new JLabel("-");
 	LPlatzhalter2 = new JLabel("-");
+	LPlatzhalter3 = new JLabel("Switch to Key - Video Mode");
 	
 	LVideo1 = new JLabel("Video1: //videos/siOvideo1.mp4");
 	LVideo2 = new JLabel("Video2: //videos/siOvideo2.mp4");
@@ -173,8 +181,11 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	TFVido2SizeY.setHorizontalAlignment(JTextField.CENTER);
 	
 	
+	CBTasten = new JCheckBox("Key - Mode");
+	CBTasten.setSelected(true);
 	
-	
+	CBTasten2 = new JCheckBox("------------");
+	//CBTasten2.setVisible(false);
 	
 	
 	
@@ -198,6 +209,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	unten.add(startButton2);
 	
 	
+	Links.add(CBTasten);
 	Links.add(LVideo1);
 	Links.add(LVido1PositionX);
 	Links.add(TFVido1PositionX);	
@@ -210,6 +222,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Links.add(LPlatzhalter);
 	
 	
+	
+	Rechts.add(CBTasten2);
 	Rechts.add(LVideo2);	
 	Rechts.add(LVido2PositionX);
 	Rechts.add(TFVido2PositionX);	
@@ -417,7 +431,18 @@ public void StartVideo2() {
 		
 		
 		String video2;
-		video2 =SHome + "\\videos\\siOvideo2.mp4";
+		//video2 =SHome + "\\videos\\siOvideo2.mp4";
+		//video2 =SHome + "\\videos\\siOB1.jpg";
+		if(CBTasten.isSelected())
+		{
+			video2 =SHome + "\\videos\\siOB1.jpg";
+		}
+		else
+		{
+			video2 =SHome + "\\videos\\siOvideo2.mp4";
+		}
+		
+		
 		Anzeige3.add(mediaPlayerComponent2);		
 		add(Anzeige3, BorderLayout.NORTH);		
 		FrameVideo2.add(Anzeige3);
