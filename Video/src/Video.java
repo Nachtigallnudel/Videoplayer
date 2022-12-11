@@ -49,6 +49,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 		
 	private JFrame FrameVideo1;	
 	private JFrame FrameVideo2;
+	private JFrame FrameVideo3;
 	
 	private JButton startButton;
 	private JButton startButton2;
@@ -62,7 +63,9 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JLabel LVido2PositionX;
 	private JLabel LVido2PositionY;
 	private JLabel LVido2SizeX;
-	private JLabel LVido2SizeY;
+	private JLabel LVido2SizeY;	
+	private JLabel LVido3PositionX;
+	private JLabel LVido3PositionY;
 	
 	private JLabel LVideo1;
 	private JLabel LVideo2;
@@ -79,6 +82,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private Integer Vido2PositionY=100;
 	private Integer Vido2SizeX=400	;
 	private Integer Vido2SizeY=300;	
+	private Integer Vido3PositionX=100;
+	private Integer Vido3PositionY=100;
 	
 		
 	private Boolean BVideoEnd1=false;
@@ -95,6 +100,9 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JTextField TFVido1SizeX;
 	private JTextField TFVido1SizeY;
 	
+	private JTextField TFVido3PositionX;
+	private JTextField TFVido3PositionY;
+	
 	private JTextField TFVido2PositionX;
 	private JTextField TFVido2PositionY;
 	private JTextField TFVido2SizeX;
@@ -102,6 +110,9 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	private JCheckBox CBTasten;
 	private JCheckBox CBTasten2;
+	private JCheckBox CBTasten3;
+	private JCheckBox CBTasten4;
+	
 	private int	BildZaehler=1;
 	
 	
@@ -109,6 +120,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent2;
 	private EmbeddedMediaPlayerComponent mediaPlayerComponent1;
+	private EmbeddedMediaPlayerComponent mediaPlayerComponent3;
 	
 	class Task extends SwingWorker<Void, Void> {
 		/*
@@ -168,6 +180,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	LVido1SizeY = new JLabel("Video High");
 	LVido2PositionX = new JLabel("Position - X");
 	LVido2PositionY = new JLabel("Position - Y");
+	LVido3PositionX = new JLabel("ControlVideo Position - X");
+	LVido3PositionY = new JLabel("ControlVideo Position - Y");
 	LVido2SizeX = new JLabel("Video Width");
 	LVido2SizeY = new JLabel("Video High");
 	LPlatzhalter = new JLabel("-");
@@ -199,6 +213,12 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	TFVido2SizeY=new JTextField(String.valueOf(Vido2SizeY));
 	TFVido2SizeY.setHorizontalAlignment(JTextField.CENTER);
 	
+	TFVido3PositionX=new JTextField(String.valueOf(Vido3PositionX));
+	TFVido3PositionX.setHorizontalAlignment(JTextField.CENTER);
+	TFVido3PositionX.setColumns(20);;
+	TFVido3PositionY=new JTextField(String.valueOf(Vido3PositionY));
+	TFVido3PositionY.setHorizontalAlignment(JTextField.CENTER);
+	
 	
 	CBTasten = new JCheckBox("Key - Mode");
 	CBTasten.setSelected(true);
@@ -207,6 +227,14 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	CBTasten2.setSelected(true);
 	CBTasten2.setActionCommand("start3");
 	CBTasten2.addActionListener(this);
+	
+	CBTasten3 = new JCheckBox("Control View");
+	CBTasten3.setSelected(true);
+	CBTasten3.setActionCommand("start4");
+	CBTasten3.addActionListener(this);
+	
+	CBTasten4 = new JCheckBox("---");
+	CBTasten3.setSelected(false);
 	
 	
 	
@@ -235,6 +263,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	
 	Links.add(CBTasten);
+	Links.add(CBTasten4);
 	Links.add(LVideo1);
 	Links.add(LVido1PositionX);
 	Links.add(TFVido1PositionX);	
@@ -243,13 +272,15 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Links.add(LVido1SizeX);
 	Links.add(TFVido1SizeX);
 	Links.add(LVido1SizeY);
-	Links.add(TFVido1SizeY);
+	Links.add(TFVido1SizeY);	
+	Links.add(LVido3PositionX);
+	Links.add(TFVido3PositionX);
 	Links.add(LPlatzhalter);
 	//Links.add(manualButton);
 	//Links.add(CBTasten);
 	
 	
-	
+	Rechts.add(CBTasten3);
 	Rechts.add(CBTasten2);
 	Rechts.add(LVideo2);	
 	Rechts.add(LVido2PositionX);
@@ -260,6 +291,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Rechts.add(TFVido2SizeX);
 	Rechts.add(LVido2SizeY);
 	Rechts.add(TFVido2SizeY);
+	Rechts.add(LVido3PositionY);
+	Rechts.add(TFVido3PositionY);
 	Rechts.add(LPlatzhalter2);
 	
 	
@@ -282,6 +315,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    	
 	    	mediaPlayerComponent1.mediaPlayer().controls().start();		
 			mediaPlayerComponent2.mediaPlayer().controls().start();
+			mediaPlayerComponent3.mediaPlayer().controls().start();
 	            TT.stop();
 	            //...GUI aktualisieren...
 	        
@@ -294,6 +328,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    	
 	    	StartVideo1();
 	    	StartVideo2();
+	    	StartVideo3();
 	    	
 	            TT2.stop();
 	            //...GUI aktualisieren...
@@ -301,9 +336,11 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    }    
 	});
 	
+	//schreibenINI();
+	 lesenINI();
 	
 	
-	lesenINI();
+	
 	
 	
 	TT2.start();
@@ -326,6 +363,7 @@ public void actionPerformed(ActionEvent arg0) {
 			schreibenINI();
 			StartVideo1();
 			StartVideo2();
+			StartVideo3();
 			
 		}
 		
@@ -424,6 +462,7 @@ public void actionPerformed(ActionEvent arg0) {
 		FrameVideo1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		FrameVideo1.setUndecorated(true);
 		FrameVideo1.setLocation(Integer.parseInt(TFVido1PositionX.getText()), Integer.parseInt(TFVido1PositionY.getText()));
+		//FrameVideo1.add(new JLabel("Hello World"), BorderLayout.CENTER);
 		
 		
 		
@@ -555,14 +594,112 @@ public void StartVideo2() {
 		
 		
 	}
+public void StartVideo3() {
+	
+	System.out.println("Play Video 3"); 
+	
+	FrameVideo3 = new JFrame("Video 3");
+	FrameVideo3.setSize(32	, 18);
+	FrameVideo3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+	FrameVideo3.setUndecorated(true);
+	FrameVideo3.setLocation(Integer.parseInt(TFVido3PositionX.getText()),Integer.parseInt(TFVido3PositionY.getText()));
+	
+	JPanel Anzeige3 = new JPanel();	
+	Anzeige3.setLayout(new BoxLayout(Anzeige3, BoxLayout.X_AXIS));		
+	// Video Play		
+	mediaPlayerComponent3 =  new EmbeddedMediaPlayerComponent()
+	{
+		 /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		   public void finished(MediaPlayer mediaPlayer3) {
+			 System.out.println("Ende Video 3"); 
+			 BVideoEnd2=true;
+			
+				//mediaPlayerComponent2.mediaPlayer().controls().stop();
+			
+			 checkPlay();
+		   }
+		
+	};
+	
+	
+	
+	String video3;
+	//video2 =SHome + "\\videos\\siOvideo2.mp4";
+	//video2 =SHome + "\\videos\\siOB1.jpg";
+	if(CBTasten.isSelected())
+	{
+		video3 =SHome + "\\videos\\siOB1.jpg";
+		LVideo2.setText("Video2: //videos/siOB1...4.jpg");
+		switch(BildZaehler){
+        case 1:
+        	video3 =SHome + "\\videos\\siOB1.jpg";
+            System.out.println("i ist null");
+            break;
+        case 2:
+        	video3 =SHome + "\\videos\\siOB2.jpg";
+            System.out.println("i ist eins");
+            break;
+        case 3:
+        	video3 =SHome + "\\videos\\siOB3.jpg";
+            System.out.println("i ist zwei");
+            break;
+        case 4:
+        	video3 =SHome + "\\videos\\siOB4.jpg";
+            System.out.println("i ist drei");
+            break;
+        default:
+        	video3 =SHome + "\\videos\\siOB1.jpg";
+            System.out.println("i liegt nicht zwischen 1 und 4");
+            break;
+        }
+	}
+	else
+	{
+		video3 =SHome + "\\videos\\siOvideo2.mp4";
+		LVideo2.setText("Video2: //videos/siOvideo2.mp4");
+	}
+	
+	
+	Anzeige3.add(mediaPlayerComponent3);		
+	add(Anzeige3, BorderLayout.NORTH);		
+	FrameVideo3.add(Anzeige3);
+	
+		
+	
+	if(CBTasten3.isSelected())
+	{
+		FrameVideo3.setVisible(true);
+		mediaPlayerComponent3.mediaPlayer().media().play(video3); 
+	}
+	else
+	{
+		FrameVideo3.setVisible(false);
+	}
+	
+	//mediaPlayerComponent2.mediaPlayer().controls().setRepeat(true);
+	//mediaPlayerComponent2.mediaPlayer().audio().mute();
+	
+	BVideoEnd2=false;
+	FrameVideo3.addKeyListener(this);
+	
+	
+	
+}
 public void StopVideo() {
 	
 	System.out.println("Stop Video 1 & 2"); 
 	
 	mediaPlayerComponent2.mediaPlayer().controls().stop();
 	mediaPlayerComponent1.mediaPlayer().controls().stop();
+	mediaPlayerComponent3.mediaPlayer().controls().stop();
 	FrameVideo2.dispose();
 	FrameVideo1.dispose();
+	FrameVideo3.dispose();
 	
 	
 }
@@ -635,6 +772,8 @@ public void keyPressed(KeyEvent e) {
 		//StopVideo();
 		mediaPlayerComponent2.mediaPlayer().controls().stop();		
 		FrameVideo2.dispose();
+		mediaPlayerComponent3.mediaPlayer().controls().stop();		
+		FrameVideo3.dispose();
 		
 		
 		
@@ -651,6 +790,7 @@ public void keyPressed(KeyEvent e) {
 		//StartVideo1();
 		//mediaPlayerComponent1.mediaPlayer().controls().play();	
 		StartVideo2();
+		StartVideo3();
 		
 		
 		
@@ -661,6 +801,8 @@ public void keyPressed(KeyEvent e) {
 		//mediaPlayerComponent1.mediaPlayer().controls().pause();		
 		mediaPlayerComponent2.mediaPlayer().controls().stop();		
 		FrameVideo2.dispose();
+		mediaPlayerComponent3.mediaPlayer().controls().stop();		
+		FrameVideo3.dispose();
 		if(BildZaehler <4)
 		{
 			BildZaehler=BildZaehler+1;
@@ -673,6 +815,7 @@ public void keyPressed(KeyEvent e) {
 		
 		//mediaPlayerComponent1.mediaPlayer().controls().play();	
 		StartVideo2();
+		StartVideo3();
 		
 
 	}
@@ -683,12 +826,14 @@ public void keyPressed(KeyEvent e) {
 		{
 			mediaPlayerComponent1.mediaPlayer().controls().pause();		
 			mediaPlayerComponent2.mediaPlayer().controls().pause();	
+			mediaPlayerComponent3.mediaPlayer().controls().pause();	
 			Play =false;
 		}
 		else
 		{
 			mediaPlayerComponent1.mediaPlayer().controls().play();		
-			mediaPlayerComponent2.mediaPlayer().controls().play();	
+			mediaPlayerComponent2.mediaPlayer().controls().play();
+			mediaPlayerComponent3.mediaPlayer().controls().play();
 			Play =true;
 		}
 		
@@ -725,6 +870,9 @@ public void schreibenINI()
 	Vido2SizeX=Integer.parseInt(TFVido2SizeX.getText());
 	Vido2SizeY=Integer.parseInt(TFVido2SizeY.getText());
 	
+	Vido3PositionX=Integer.parseInt(TFVido3PositionX.getText());
+	Vido3PositionY=Integer.parseInt(TFVido3PositionY.getText());
+	
     String s = SHome + "\\videos\\siOINI.txt";
     try {
         pWriter = new PrintWriter(new FileWriter(s));
@@ -737,7 +885,10 @@ public void schreibenINI()
         pWriter.println("Video2PY=" +Vido2PositionY);
         pWriter.println("Video2SX=" +Vido2SizeX);
         pWriter.println("Video2SY=" +Vido2SizeY);
-        pWriter.println("KeyMode=" +CBTasten.isSelected());   
+        pWriter.println("KeyMode=" +CBTasten.isSelected()); 
+        pWriter.println("CView=" +CBTasten3.isSelected()); 
+        pWriter.println("Video3PX=" +Vido3PositionX);
+        pWriter.println("Video3PY=" +Vido3PositionY);
         
         
         
@@ -765,9 +916,17 @@ private void ladeDatei(String datName) {
     String[] parts8 = null;
     String[] parts9 = null;
     String[] parts10 = null;
+    String[] parts11 = null;
+    String[] parts12 = null;
+    String[] parts13 = null;
 
     if (!file.canRead() || !file.isFile())
-        System.exit(0);
+    {
+    	System.out.println("keine Ini" ); 
+    	schreibenINI();
+    	System.exit(0);
+    }
+       
 
         BufferedReader in = null;
     try {
@@ -786,17 +945,21 @@ private void ladeDatei(String datName) {
             if(Z==8) parts8 = zeile.split("=");
             if(Z==9) parts9 = zeile.split("=");
             if(Z==10) parts10 = zeile.split("=");
+            if(Z==11) parts11 = zeile.split("=");
+            if(Z==12) parts12 = zeile.split("=");
+            if(Z==13) parts13 = zeile.split("=");
            // System.out.println("Gelesen =  " + parts[1] );
             
             Z=Z+1;
         }
     } catch (IOException e) {
-        e.printStackTrace();
+    	        e.printStackTrace();
     } finally {
         if (in != null)
             try {
                 in.close();
             } catch (IOException e) {
+            	
             }
     }
    
@@ -809,6 +972,9 @@ private void ladeDatei(String datName) {
     Vido2SizeX= Integer.parseInt(parts8[1]);
     Vido2SizeY= Integer.parseInt(parts9[1]);
     CBTasten.setSelected(Boolean.valueOf(parts10[1]));
+    CBTasten3.setSelected(Boolean.valueOf(parts11[1]));
+    Vido3PositionX= Integer.parseInt(parts12[1]);
+    Vido3PositionY= Integer.parseInt(parts13[1]);
     
     
     TFVido1PositionX.setText(String.valueOf(Vido1PositionX));
@@ -821,6 +987,9 @@ private void ladeDatei(String datName) {
     TFVido2PositionY.setText(String.valueOf(Vido2PositionY));
     TFVido2SizeX.setText(String.valueOf(Vido2SizeX));
     TFVido2SizeY.setText(String.valueOf(Vido2SizeY));
+    
+    TFVido3PositionX.setText(String.valueOf(Vido3PositionX));
+    TFVido3PositionY.setText(String.valueOf(Vido3PositionY));
     
     //System.out.println("Zeile NR = "+ Z + " Gelesene Zeile: " + zeile );
     
