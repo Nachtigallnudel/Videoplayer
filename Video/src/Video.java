@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -66,6 +66,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JLabel LVido2SizeY;	
 	private JLabel LVido3PositionX;
 	private JLabel LVido3PositionY;
+	private JLabel LVido3SizeX;
+	private JLabel LVido3SizeY;
 	
 	private JLabel LVideo1;
 	private JLabel LVideo2;
@@ -84,6 +86,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private Integer Vido2SizeY=300;	
 	private Integer Vido3PositionX=100;
 	private Integer Vido3PositionY=100;
+	private Integer Vido3SizeX=400	;
+	private Integer Vido3SizeY=300;	
 	
 		
 	private Boolean BVideoEnd1=false;
@@ -107,6 +111,9 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JTextField TFVido2PositionY;
 	private JTextField TFVido2SizeX;
 	private JTextField TFVido2SizeY;
+	
+	private JTextField TFVido3SizeX;
+	private JTextField TFVido3SizeY;
 	
 	private JCheckBox CBTasten;
 	private JCheckBox CBTasten2;
@@ -186,6 +193,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	LVido2SizeY = new JLabel("Video High");
 	LPlatzhalter = new JLabel("-");
 	LPlatzhalter2 = new JLabel("-");
+	LVido3SizeX = new JLabel("ControlVideo Width");
+	LVido3SizeY = new JLabel("ControlVideo High");
 	//LPlatzhalter3 = new JLabel("Switch to Key - Video Mode");
 	
 	LVideo1 = new JLabel("Video1: //videos/siOvideo1.mp4");
@@ -218,6 +227,10 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	TFVido3PositionX.setColumns(20);;
 	TFVido3PositionY=new JTextField(String.valueOf(Vido3PositionY));
 	TFVido3PositionY.setHorizontalAlignment(JTextField.CENTER);
+	TFVido3SizeX=new JTextField(String.valueOf(Vido3SizeX));
+	TFVido3SizeX.setHorizontalAlignment(JTextField.CENTER);
+	TFVido3SizeY=new JTextField(String.valueOf(Vido3SizeY));
+	TFVido3SizeY.setHorizontalAlignment(JTextField.CENTER);
 	
 	
 	CBTasten = new JCheckBox("Key - Mode");
@@ -275,6 +288,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Links.add(TFVido1SizeY);	
 	Links.add(LVido3PositionX);
 	Links.add(TFVido3PositionX);
+	Links.add(LVido3SizeX);
+	Links.add(TFVido3SizeX);
 	Links.add(LPlatzhalter);
 	//Links.add(manualButton);
 	//Links.add(CBTasten);
@@ -293,6 +308,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	Rechts.add(TFVido2SizeY);
 	Rechts.add(LVido3PositionY);
 	Rechts.add(TFVido3PositionY);
+	Rechts.add(LVido3SizeY);
+	Rechts.add(TFVido3SizeY);
 	Rechts.add(LPlatzhalter2);
 	
 	
@@ -392,7 +409,9 @@ public void actionPerformed(ActionEvent arg0) {
 					"Keys :\n"+
 					"Space      = Pause / Play Video \n"+
 					"<                = image back \n"+
-					">                = image forward \n"
+					">                = image forward \n"+
+					"ESC           = Stop Video \n"+
+					"Mouse click      = Stop Video \n"
 							
 					,  "siOPTICA Videoplayer Manual", 
                     JOptionPane.INFORMATION_MESSAGE);
@@ -479,6 +498,15 @@ public void actionPerformed(ActionEvent arg0) {
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+	            super.mouseClicked(e);
+	            System.out.println("Mouse Clicked. (" + e.getX() + "," + e.getY() + ")");
+	            StopVideo();
+	         }
+			
+			
 
 			@Override
 			   public void finished(MediaPlayer mediaPlayer) {
@@ -525,6 +553,13 @@ public void StartVideo2() {
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+	            super.mouseClicked(e);
+	            System.out.println("Mouse Clicked. (" + e.getX() + "," + e.getY() + ")");
+	            StopVideo();
+	         }
 
 			@Override
 			   public void finished(MediaPlayer mediaPlayer2) {
@@ -599,7 +634,7 @@ public void StartVideo3() {
 	System.out.println("Play Video 3"); 
 	
 	FrameVideo3 = new JFrame("Video 3");
-	FrameVideo3.setSize(32	, 18);
+	FrameVideo3.setSize(Integer.parseInt(TFVido3SizeX.getText()), Integer.parseInt(TFVido3SizeY.getText()));
 	FrameVideo3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 	FrameVideo3.setUndecorated(true);
 	FrameVideo3.setLocation(Integer.parseInt(TFVido3PositionX.getText()),Integer.parseInt(TFVido3PositionY.getText()));
@@ -613,6 +648,13 @@ public void StartVideo3() {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+            super.mouseClicked(e);
+            System.out.println("Mouse Clicked. (" + e.getX() + "," + e.getY() + ")");
+            StopVideo();
+         }
 
 		@Override
 		   public void finished(MediaPlayer mediaPlayer3) {
@@ -872,6 +914,8 @@ public void schreibenINI()
 	
 	Vido3PositionX=Integer.parseInt(TFVido3PositionX.getText());
 	Vido3PositionY=Integer.parseInt(TFVido3PositionY.getText());
+	Vido3SizeX=Integer.parseInt(TFVido3SizeX.getText());
+	Vido3SizeY=Integer.parseInt(TFVido3SizeY.getText());
 	
     String s = SHome + "\\videos\\siOINI.txt";
     try {
@@ -889,6 +933,8 @@ public void schreibenINI()
         pWriter.println("CView=" +CBTasten3.isSelected()); 
         pWriter.println("Video3PX=" +Vido3PositionX);
         pWriter.println("Video3PY=" +Vido3PositionY);
+        pWriter.println("Video3SX=" +Vido3SizeX);
+        pWriter.println("Video3SY=" +Vido3SizeY);
         
         
         
@@ -919,6 +965,8 @@ private void ladeDatei(String datName) {
     String[] parts11 = null;
     String[] parts12 = null;
     String[] parts13 = null;
+    String[] parts14 = null;
+    String[] parts15 = null;
 
     if (!file.canRead() || !file.isFile())
     {
@@ -948,6 +996,8 @@ private void ladeDatei(String datName) {
             if(Z==11) parts11 = zeile.split("=");
             if(Z==12) parts12 = zeile.split("=");
             if(Z==13) parts13 = zeile.split("=");
+            if(Z==14) parts14 = zeile.split("=");
+            if(Z==15) parts15 = zeile.split("=");
            // System.out.println("Gelesen =  " + parts[1] );
             
             Z=Z+1;
@@ -975,6 +1025,9 @@ private void ladeDatei(String datName) {
     CBTasten3.setSelected(Boolean.valueOf(parts11[1]));
     Vido3PositionX= Integer.parseInt(parts12[1]);
     Vido3PositionY= Integer.parseInt(parts13[1]);
+    Vido3SizeX= Integer.parseInt(parts14[1]);
+    Vido3SizeY= Integer.parseInt(parts15[1]);
+    
     
     
     TFVido1PositionX.setText(String.valueOf(Vido1PositionX));
@@ -990,6 +1043,8 @@ private void ladeDatei(String datName) {
     
     TFVido3PositionX.setText(String.valueOf(Vido3PositionX));
     TFVido3PositionY.setText(String.valueOf(Vido3PositionY));
+    TFVido3SizeX.setText(String.valueOf(Vido3SizeX));
+    TFVido3SizeY.setText(String.valueOf(Vido3SizeY));
     
     //System.out.println("Zeile NR = "+ Z + " Gelesene Zeile: " + zeile );
     
