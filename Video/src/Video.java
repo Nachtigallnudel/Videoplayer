@@ -566,7 +566,7 @@ public void StartVideo2() {
 				 System.out.println("Ende Video 2"); 
 				 BVideoEnd2=true;
 				
-					//mediaPlayerComponent2.mediaPlayer().controls().stop();
+					
 				
 				 checkPlay();
 			   }
@@ -756,6 +756,8 @@ public void checkPlay() {
 		if(CBTasten.isSelected())
 		{
 			
+			BVideoEnd1=false;
+			BVideoEnd2=false;
 			TT.start();		  
 		}
 		else
@@ -763,22 +765,15 @@ public void checkPlay() {
 			if(BVideoEnd1.equals(true) && BVideoEnd2.equals(true))
 			{
 				System.out.println("Restart Video 1&2");
-				//mediaPlayerComponent1.mediaPlayer().controls().start();		
-				//mediaPlayerComponent2.mediaPlayer().controls().start();
 				BVideoEnd1=false;
 				BVideoEnd2=false;
-				
-				
-				TT.start();		  
-				
-				
+				TT.start();	
 			}
 		}
 		
 	
 		
-		//BVideoEnd1=false;
-		//BVideoEnd2=false;
+		
 	
 	
 	
