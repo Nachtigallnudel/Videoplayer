@@ -53,7 +53,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	private JButton startButton;
 	private JButton startButton2;
-	private JButton manualButton;
+	//private JButton manualButton;
 	
 	
 	private JLabel LVido1PositionX;
@@ -92,11 +92,13 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 		
 	private Boolean BVideoEnd1=false;
 	private Boolean BVideoEnd2=false;
+	@SuppressWarnings("unused")
 	private Boolean Play=false;
 	
 	
 	private Timer TT;
 	private Timer TT2;
+	private Timer TT3;
 	public final static int ONE_SECOND = 50;   // Bestimmt nach dem Video wie Lange gewartet wird
 	
 	private JTextField TFVido1PositionX;
@@ -115,10 +117,10 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JTextField TFVido3SizeX;
 	private JTextField TFVido3SizeY;
 	
-	private JCheckBox CBTasten;
-	private JCheckBox CBTasten2;
-	private JCheckBox CBTasten3;
-	private JCheckBox CBTasten4;
+	private JCheckBox CBTasten; 	//Umschalten Video zu Bild
+	private JCheckBox CBTasten2;	//Manual
+	private JCheckBox CBTasten3;	//Umschalten Control View sichtbar oder nicht
+	private JCheckBox CBTasten4;	// Platzhalter
 	
 	private int	BildZaehler=1;
 	
@@ -247,7 +249,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	CBTasten3.addActionListener(this);
 	
 	CBTasten4 = new JCheckBox("---");
-	CBTasten3.setSelected(false);
+	CBTasten4.setSelected(false);
 	
 	
 	
@@ -323,16 +325,28 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	add(Rechts, BorderLayout.EAST);
 	add(unten,BorderLayout.SOUTH);
 	
+	//Play=false;
+	
 	
 	System.out.println("++++++++++++++++++++++++++++++++++   Start App  ++++++++++++++++++++++++++++"); 
 	
 	TT = new Timer(ONE_SECOND, new ActionListener() {
 	    public void actionPerformed(ActionEvent evt) {
 	    	System.out.println("Timer fertig nach 50 ms");
-	    	
+	    	//java.awt.Toolkit.getDefaultToolkit().beep();
 	    	mediaPlayerComponent1.mediaPlayer().controls().start();		
-			mediaPlayerComponent2.mediaPlayer().controls().start();
-			mediaPlayerComponent3.mediaPlayer().controls().start();
+			//mediaPlayerComponent2.mediaPlayer().controls().start();
+			//mediaPlayerComponent3.mediaPlayer().controls().start();
+			if(CBTasten.isSelected())
+			{
+				TT3.start();		  
+			}
+			else
+			{
+				mediaPlayerComponent2.mediaPlayer().controls().start();
+				mediaPlayerComponent3.mediaPlayer().controls().start();
+				System.out.println("Start Video 2 und 3 +++++++++++++++++++++++++++++");
+			}
 	            TT.stop();
 	            //...GUI aktualisieren...
 	        
@@ -348,6 +362,21 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    	StartVideo3();
 	    	
 	            TT2.stop();
+	            //...GUI aktualisieren...
+	        
+	    }    
+	});
+	
+	// Timer zum stoppen des Video bei Bilder Anzeige
+	TT3 = new Timer(ONE_SECOND, new ActionListener() {
+	    public void actionPerformed(ActionEvent evt) {
+	    	System.out.println("Timer fertig nach 50 ms");
+	    	//mediaPlayerComponent3.mediaPlayer().controls().pause();	
+	    	mediaPlayerComponent2.mediaPlayer().controls().pause();	
+			mediaPlayerComponent3.mediaPlayer().controls().pause();
+			Play =false;
+			System.out.println("Pause Video 2 und 3 +++++++++++++++++++++++++++++");
+	        TT3.stop();
 	            //...GUI aktualisieren...
 	        
 	    }    
@@ -564,11 +593,24 @@ public void StartVideo2() {
 			@Override
 			   public void finished(MediaPlayer mediaPlayer2) {
 				 System.out.println("Ende Video 2"); 
-				 BVideoEnd2=true;
+				 if(CBTasten.isSelected())
+					{
+					 	//mediaPlayerComponent2.mediaPlayer().controls().start();
+						//mediaPlayerComponent3.mediaPlayer().controls().start();
+					    BVideoEnd2=true;
+					 	checkPlay();
+					 
+					}
+					 else
+					 {
+						 BVideoEnd2=true;
+						  checkPlay();
+					 }
+				 
 				
 					
 				
-				 checkPlay();
+				
 			   }
 			
 		};
@@ -639,8 +681,8 @@ public void StartVideo3() {
 	FrameVideo3.setUndecorated(true);
 	FrameVideo3.setLocation(Integer.parseInt(TFVido3PositionX.getText()),Integer.parseInt(TFVido3PositionY.getText()));
 	
-	JPanel Anzeige3 = new JPanel();	
-	Anzeige3.setLayout(new BoxLayout(Anzeige3, BoxLayout.X_AXIS));		
+	JPanel Anzeige4 = new JPanel();	
+	Anzeige4.setLayout(new BoxLayout(Anzeige4, BoxLayout.X_AXIS));		
 	// Video Play		
 	mediaPlayerComponent3 =  new EmbeddedMediaPlayerComponent()
 	{
@@ -659,11 +701,19 @@ public void StartVideo3() {
 		@Override
 		   public void finished(MediaPlayer mediaPlayer3) {
 			 System.out.println("Ende Video 3"); 
-			 BVideoEnd2=true;
-			
-				//mediaPlayerComponent2.mediaPlayer().controls().stop();
-			
-			 checkPlay();
+			 if(CBTasten.isSelected())
+				{
+				 	//mediaPlayerComponent2.mediaPlayer().controls().start();
+					//mediaPlayerComponent3.mediaPlayer().controls().start();
+				    BVideoEnd2=true;
+				 	checkPlay();
+				 
+				}
+				 else
+				 {
+					 BVideoEnd2=true;
+					  checkPlay();
+				 }
 		   }
 		
 	};
@@ -707,9 +757,10 @@ public void StartVideo3() {
 	}
 	
 	
-	Anzeige3.add(mediaPlayerComponent3);		
-	add(Anzeige3, BorderLayout.NORTH);		
-	FrameVideo3.add(Anzeige3);
+	Anzeige4.add(mediaPlayerComponent3);		
+	add(Anzeige4, BorderLayout.NORTH);		
+	FrameVideo3.add(Anzeige4);
+	//mediaPlayerComponent3.mediaPlayer().media().play(video3);
 	
 		
 	
@@ -721,6 +772,7 @@ public void StartVideo3() {
 	else
 	{
 		FrameVideo3.setVisible(false);
+		mediaPlayerComponent3.mediaPlayer().media().play(video3);
 	}
 	
 	//mediaPlayerComponent2.mediaPlayer().controls().setRepeat(true);
@@ -756,8 +808,8 @@ public void checkPlay() {
 		if(CBTasten.isSelected())
 		{
 			
-			BVideoEnd1=false;
-			BVideoEnd2=false;
+			//BVideoEnd1=false;
+			//BVideoEnd2=false;
 			TT.start();		  
 		}
 		else
@@ -799,6 +851,7 @@ public void keyPressed(KeyEvent e) {
 		//mediaPlayerComponent2.mediaPlayer().controls().nextFrame();
 		mediaPlayerComponent1.mediaPlayer().controls().start();	
 		mediaPlayerComponent2.mediaPlayer().controls().start();
+		mediaPlayerComponent3.mediaPlayer().controls().start();
 
 	}
 	
@@ -828,6 +881,10 @@ public void keyPressed(KeyEvent e) {
 		//mediaPlayerComponent1.mediaPlayer().controls().play();	
 		StartVideo2();
 		StartVideo3();
+		if(CBTasten.isSelected())
+		{
+			TT3.start();		  
+		}
 		
 		
 		
@@ -853,6 +910,10 @@ public void keyPressed(KeyEvent e) {
 		//mediaPlayerComponent1.mediaPlayer().controls().play();	
 		StartVideo2();
 		StartVideo3();
+		if(CBTasten.isSelected())
+		{
+			TT3.start();		  
+		}
 		
 
 	}
