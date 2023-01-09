@@ -93,7 +93,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private Boolean BVideoEnd1=false;
 	private Boolean BVideoEnd2=false;
 	@SuppressWarnings("unused")
-	private Boolean Play=false;
+	private Boolean Play=true;
 	
 	
 	private Timer TT;
@@ -345,7 +345,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 			{
 				mediaPlayerComponent2.mediaPlayer().controls().start();
 				mediaPlayerComponent3.mediaPlayer().controls().start();
-				System.out.println("Start Video 2 und 3 +++++++++++++++++++++++++++++");
+				//System.out.println("Start Video 2 und 3 +++++++++++++++++++++++++++++");
 			}
 	            TT.stop();
 	            //...GUI aktualisieren...
@@ -360,7 +360,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    	StartVideo1();
 	    	StartVideo2();
 	    	StartVideo3();
-	    	
+	    	TT3.start();
 	            TT2.stop();
 	            //...GUI aktualisieren...
 	        
@@ -372,9 +372,11 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    public void actionPerformed(ActionEvent evt) {
 	    	System.out.println("Timer fertig nach 50 ms");
 	    	//mediaPlayerComponent3.mediaPlayer().controls().pause();	
-	    	mediaPlayerComponent2.mediaPlayer().controls().pause();	
-			mediaPlayerComponent3.mediaPlayer().controls().pause();
-			Play =false;
+	    	mediaPlayerComponent2.mediaPlayer().controls().setPause(true);
+			mediaPlayerComponent3.mediaPlayer().controls().setPause(true);
+	    	//mediaPlayerComponent2.mediaPlayer().controls().pause();	
+			//mediaPlayerComponent3.mediaPlayer().controls().pause();
+			
 			System.out.println("Pause Video 2 und 3 +++++++++++++++++++++++++++++");
 	        TT3.stop();
 	            //...GUI aktualisieren...
@@ -720,6 +722,7 @@ public void StartVideo3() {
 	
 	
 	
+	@SuppressWarnings("unused")
 	String video3;
 	//video2 =SHome + "\\videos\\siOvideo2.mp4";
 	//video2 =SHome + "\\videos\\siOB1.jpg";
@@ -772,7 +775,7 @@ public void StartVideo3() {
 	else
 	{
 		FrameVideo3.setVisible(false);
-		mediaPlayerComponent3.mediaPlayer().media().play(video3);
+		//mediaPlayerComponent3.mediaPlayer().media().play(video3);
 	}
 	
 	//mediaPlayerComponent2.mediaPlayer().controls().setRepeat(true);
@@ -855,6 +858,21 @@ public void keyPressed(KeyEvent e) {
 
 	}
 	
+	if(e.getKeyCode() == KeyEvent.VK_O) {
+		System.out.println("O Pause  Videos 2 und 3 "); 
+		//mediaPlayerComponent1.mediaPlayer().controls().nextFrame();	
+		//mediaPlayerComponent2.mediaPlayer().controls().nextFrame();
+		//mediaPlayerComponent1.mediaPlayer().controls().start();	
+		mediaPlayerComponent2.mediaPlayer().controls().setPause(true);
+		mediaPlayerComponent3.mediaPlayer().controls().setPause(true);
+		//mediaPlayerComponent2.mediaPlayer().controls().pause();
+		//mediaPlayerComponent3.mediaPlayer().controls().pause();
+		//mediaPlayerComponent2.mediaPlayer().controls().
+
+	}
+	
+	
+	
 	if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 		System.out.println("Key Left"); 
 		
@@ -920,19 +938,26 @@ public void keyPressed(KeyEvent e) {
 	if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 		System.out.println("Key space"); 
 		
-		if(Play =true)
+		if(Play )
 		{
-			mediaPlayerComponent1.mediaPlayer().controls().pause();		
-			mediaPlayerComponent2.mediaPlayer().controls().pause();	
-			mediaPlayerComponent3.mediaPlayer().controls().pause();	
+			mediaPlayerComponent1.mediaPlayer().controls().setPause(true);
+			mediaPlayerComponent2.mediaPlayer().controls().setPause(true);
+			mediaPlayerComponent3.mediaPlayer().controls().setPause(true);
 			Play =false;
+			System.out.println("Key space = true"); 
 		}
 		else
 		{
-			mediaPlayerComponent1.mediaPlayer().controls().play();		
+			
+			mediaPlayerComponent1.mediaPlayer().controls().play();
 			mediaPlayerComponent2.mediaPlayer().controls().play();
 			mediaPlayerComponent3.mediaPlayer().controls().play();
 			Play =true;
+			System.out.println("Key space = false"); 
+			if(CBTasten.isSelected())
+			{
+				TT3.start();		  
+			}
 		}
 		
 
