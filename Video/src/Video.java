@@ -1,6 +1,10 @@
 import java.awt.BorderLayout;
-
+import java.awt.Canvas;
 import java.awt.FlowLayout;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -386,6 +390,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	//schreibenINI();
 	 lesenINI();
+	 checkScreen();
 	
 	
 	
@@ -417,7 +422,7 @@ public void actionPerformed(ActionEvent arg0) {
 		
 		if (arg0.getSource() == startButton2) {
 			System.out.println("Stop all Videos"); 
-			
+						
 			schreibenINI();
 		    }
 		
@@ -980,6 +985,24 @@ public void lesenINI()
 	ladeDatei(SHome + "\\videos\\siOINI.txt");
 }
 
+public void checkScreen()
+{
+	GraphicsEnvironment ge = GraphicsEnvironment.
+			   getLocalGraphicsEnvironment();
+			   GraphicsDevice[] gs = ge.getScreenDevices();				   
+			  
+				     
+	
+	
+	if(gs.length == 1) {
+		JOptionPane.showMessageDialog(null, 
+			"Please check your second Screen!!!!!!!!",
+         SHome, JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	
+}
+
 public void schreibenINI()
 {
 	PrintWriter pWriter = null;
@@ -1052,6 +1075,7 @@ private void ladeDatei(String datName) {
     if (!file.canRead() || !file.isFile())
     {
     	System.out.println("keine Ini" ); 
+    	JOptionPane.showMessageDialog(null, "First time to start write ini File", "InfoBox: " , JOptionPane.INFORMATION_MESSAGE);
     	schreibenINI();
     	System.exit(0);
     }
