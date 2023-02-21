@@ -1,10 +1,10 @@
 import java.awt.BorderLayout;
-import java.awt.Canvas;
+//import java.awt.Canvas;
 import java.awt.FlowLayout;
-import java.awt.GraphicsConfiguration;
+//import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
+//import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -96,13 +96,15 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 		
 	private Boolean BVideoEnd1=false;
 	private Boolean BVideoEnd2=false;
-	@SuppressWarnings("unused")
+	private Boolean BVideoEnd3=false;
+	//@SuppressWarnings("unused")
 	private Boolean Play=true;
 	
 	
 	private Timer TT;
 	private Timer TT2;
 	private Timer TT3;
+	private Timer TT4; // TTimer für Play länge Video
 	public final static int ONE_SECOND = 50;   // Bestimmt nach dem Video wie Lange gewartet wird
 	
 	private JTextField TFVido1PositionX;
@@ -124,7 +126,13 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JCheckBox CBTasten; 	//Umschalten Video zu Bild
 	private JCheckBox CBTasten2;	//Manual
 	private JCheckBox CBTasten3;	//Umschalten Control View sichtbar oder nicht
-	private JCheckBox CBTasten4;	// Platzhalter
+	private JCheckBox CBTasten4;	// Timer aktiv
+	private Integer VideoLength;	// Video Länge
+	private JTextField TFVideoLaenge;
+	private JLabel LTFVideoLaenge;
+	
+	
+	
 	
 	private int	BildZaehler=1;
 	
@@ -239,6 +247,12 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	TFVido3SizeY.setHorizontalAlignment(JTextField.CENTER);
 	
 	
+	TFVideoLaenge=new JTextField(String.valueOf(VideoLength));
+	TFVideoLaenge.setHorizontalAlignment(JTextField.CENTER);
+	TFVideoLaenge.setColumns(20);;	
+	LTFVideoLaenge = new JLabel("Video Länge in ms:");
+	
+	
 	CBTasten = new JCheckBox("Key - Mode");
 	CBTasten.setSelected(true);
 	
@@ -283,6 +297,8 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	Links.add(CBTasten);
 	Links.add(CBTasten4);
+	Links.add(LTFVideoLaenge);
+	Links.add(LVideo1);
 	Links.add(LVideo1);
 	Links.add(LVido1PositionX);
 	Links.add(TFVido1PositionX);	
@@ -303,6 +319,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	Rechts.add(CBTasten3);
 	Rechts.add(CBTasten2);
+	Rechts.add(TFVideoLaenge);
 	Rechts.add(LVideo2);	
 	Rechts.add(LVido2PositionX);
 	Rechts.add(TFVido2PositionX);	
@@ -336,7 +353,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	TT = new Timer(ONE_SECOND, new ActionListener() {
 	    public void actionPerformed(ActionEvent evt) {
-	    	System.out.println("Timer fertig nach 50 ms");
+	    	System.out.println("TT   Timer fertig nach 50 ms");
 	    	//java.awt.Toolkit.getDefaultToolkit().beep();
 	    	mediaPlayerComponent1.mediaPlayer().controls().start();		
 			//mediaPlayerComponent2.mediaPlayer().controls().start();
@@ -364,7 +381,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    	StartVideo1();
 	    	StartVideo2();
 	    	StartVideo3();
-	    	TT3.start();
+	    	//TT3.start();
 	            TT2.stop();
 	            //...GUI aktualisieren...
 	        
@@ -388,8 +405,27 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	    }    
 	});
 	
-	//schreibenINI();
 	 lesenINI();
+	
+	TT4 = new Timer(VideoLength, new ActionListener() {
+	    public void actionPerformed(ActionEvent evt) {
+	    	System.out.println("Timer fertig nach Video Länge ms = " + VideoLength);
+	    	
+			System.out.println("Static Video Länge restart Videos");
+			mediaPlayerComponent1.mediaPlayer().controls().stop();
+			mediaPlayerComponent2.mediaPlayer().controls().stop();
+			mediaPlayerComponent3.mediaPlayer().controls().stop();
+			
+			
+			TT.start();
+	       // TT4.stop();
+	            //...GUI aktualisieren...
+	        
+	    }    
+	});
+	
+	//schreibenINI();
+	 //lesenINI();
 	 checkScreen();
 	
 	
@@ -397,6 +433,12 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	
 	TT2.start();
+	if(CBTasten4.isSelected())
+	{
+	
+		TT4.start();
+		
+	}
 	
 	
 
@@ -414,9 +456,18 @@ public void actionPerformed(ActionEvent arg0) {
 			System.out.println("Play all Videos"); 
 			
 			schreibenINI();
-			StartVideo1();
-			StartVideo2();
-			StartVideo3();
+			
+			if(CBTasten4.isSelected())
+			{
+				TT4.start();
+			}
+			
+				
+				
+			
+				StartVideo1();
+				StartVideo2();
+				StartVideo3();
 			
 		}
 		
@@ -475,7 +526,7 @@ public void actionPerformed(ActionEvent arg0) {
 	// Create and set up the window.
 	JFrame frame = new JFrame("siOPTICA 2-Video Player");
 	frame.setLayout(new FlowLayout());
-	frame.setSize(600, 350);
+	frame.setSize(600, 450);
 	//frame.addKeyListener(this);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setLocation(100, 100);
@@ -708,19 +759,20 @@ public void StartVideo3() {
 		@Override
 		   public void finished(MediaPlayer mediaPlayer3) {
 			 System.out.println("Ende Video 3"); 
-			 if(CBTasten.isSelected())
-				{
-				 	//mediaPlayerComponent2.mediaPlayer().controls().start();
-					//mediaPlayerComponent3.mediaPlayer().controls().start();
-				    BVideoEnd2=true;
-				 	checkPlay();
-				 
-				}
-				 else
-				 {
-					 BVideoEnd2=true;
-					  checkPlay();
-				 }
+			 
+				 if(CBTasten.isSelected())
+					{
+					 	//mediaPlayerComponent2.mediaPlayer().controls().start();
+						//mediaPlayerComponent3.mediaPlayer().controls().start();
+					    BVideoEnd3=true;
+					 	checkPlay();
+					 
+					}
+					 else
+					 {
+						 BVideoEnd3=true;
+						  checkPlay();
+					 }
 		   }
 		
 	};
@@ -802,6 +854,7 @@ public void StopVideo() {
 	FrameVideo2.dispose();
 	FrameVideo1.dispose();
 	FrameVideo3.dispose();
+	TT4.stop();
 	
 	
 }
@@ -812,24 +865,37 @@ public void checkPlay() {
 		System.out.println("check play");
 		System.out.println("BVideoEnd1 = " +BVideoEnd1.booleanValue());
 		System.out.println("BVideoEnd2 = " +BVideoEnd2.booleanValue());
+		System.out.println("BVideoEnd3 = " +BVideoEnd2.booleanValue());
 		
-		if(CBTasten.isSelected())
+		if(CBTasten4.isSelected())
 		{
+		
 			
-			//BVideoEnd1=false;
-			//BVideoEnd2=false;
-			TT.start();		  
+			
 		}
 		else
 		{
-			if(BVideoEnd1.equals(true) && BVideoEnd2.equals(true))
+				if(CBTasten.isSelected())
 			{
-				System.out.println("Restart Video 1&2");
-				BVideoEnd1=false;
-				BVideoEnd2=false;
-				TT.start();	
+				
+				//BVideoEnd1=false;
+				//BVideoEnd2=false;
+				TT.start();		  
+			}
+			else
+			{
+				if(BVideoEnd1.equals(true) && BVideoEnd2.equals(true)&& BVideoEnd3.equals(true))
+				{
+					System.out.println("Restart Video 1&2");
+					BVideoEnd1=false;
+					BVideoEnd2=false;
+					BVideoEnd3=false;
+					
+					TT.start();	
+				}
 			}
 		}
+		
 		
 	
 		
@@ -996,7 +1062,7 @@ public void checkScreen()
 	
 	if(gs.length == 1) {
 		JOptionPane.showMessageDialog(null, 
-			"Please check your second Screen!!!!!!!!",
+			"Please check your second Screen  !!!!!!!!!!!!!!!!!!!",
          SHome, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
@@ -1020,6 +1086,7 @@ public void schreibenINI()
 	Vido3PositionY=Integer.parseInt(TFVido3PositionY.getText());
 	Vido3SizeX=Integer.parseInt(TFVido3SizeX.getText());
 	Vido3SizeY=Integer.parseInt(TFVido3SizeY.getText());
+	VideoLength=Integer.parseInt(TFVideoLaenge.getText());
 	
     String s = SHome + "\\videos\\siOINI.txt";
     try {
@@ -1039,6 +1106,8 @@ public void schreibenINI()
         pWriter.println("Video3PY=" +Vido3PositionY);
         pWriter.println("Video3SX=" +Vido3SizeX);
         pWriter.println("Video3SY=" +Vido3SizeY);
+        pWriter.println("TimerActive=" +CBTasten4.isSelected()); 
+        pWriter.println("VideoLength=" +VideoLength); 
         
         
         
@@ -1071,6 +1140,8 @@ private void ladeDatei(String datName) {
     String[] parts13 = null;
     String[] parts14 = null;
     String[] parts15 = null;
+    String[] parts16 = null;
+    String[] parts17 = null;
 
     if (!file.canRead() || !file.isFile())
     {
@@ -1103,6 +1174,8 @@ private void ladeDatei(String datName) {
             if(Z==13) parts13 = zeile.split("=");
             if(Z==14) parts14 = zeile.split("=");
             if(Z==15) parts15 = zeile.split("=");
+            if(Z==16) parts16 = zeile.split("=");
+            if(Z==17) parts17 = zeile.split("=");
            // System.out.println("Gelesen =  " + parts[1] );
             
             Z=Z+1;
@@ -1132,6 +1205,8 @@ private void ladeDatei(String datName) {
     Vido3PositionY= Integer.parseInt(parts13[1]);
     Vido3SizeX= Integer.parseInt(parts14[1]);
     Vido3SizeY= Integer.parseInt(parts15[1]);
+    CBTasten4.setSelected(Boolean.valueOf(parts16[1]));
+    VideoLength= Integer.parseInt(parts17[1]);
     
     
     
@@ -1150,6 +1225,7 @@ private void ladeDatei(String datName) {
     TFVido3PositionY.setText(String.valueOf(Vido3PositionY));
     TFVido3SizeX.setText(String.valueOf(Vido3SizeX));
     TFVido3SizeY.setText(String.valueOf(Vido3SizeY));
+    TFVideoLaenge.setText(String.valueOf(VideoLength));
     
     //System.out.println("Zeile NR = "+ Z + " Gelesene Zeile: " + zeile );
     
