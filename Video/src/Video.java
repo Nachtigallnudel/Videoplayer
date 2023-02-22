@@ -266,7 +266,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	CBTasten3.setActionCommand("start4");
 	CBTasten3.addActionListener(this);
 	
-	CBTasten4 = new JCheckBox("---");
+	CBTasten4 = new JCheckBox("Activate Time Length");
 	CBTasten4.setSelected(false);
 	
 	
