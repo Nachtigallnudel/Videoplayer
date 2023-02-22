@@ -127,7 +127,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	private JCheckBox CBTasten2;	//Manual
 	private JCheckBox CBTasten3;	//Umschalten Control View sichtbar oder nicht
 	private JCheckBox CBTasten4;	// Timer aktiv
-	private Integer VideoLength;	// Video Länge
+	private Integer VideoLength=5000;	// Video Länge
 	private JTextField TFVideoLaenge;
 	private JLabel LTFVideoLaenge;
 	
@@ -1072,6 +1072,7 @@ public void checkScreen()
 public void schreibenINI()
 {
 	PrintWriter pWriter = null;
+	 System.out.println("Schreiben Ini 1" );
 	Vido1PositionX=Integer.parseInt(TFVido1PositionX.getText());
 	Vido1PositionY=Integer.parseInt(TFVido1PositionY.getText());
 	Vido1SizeX=Integer.parseInt(TFVido1SizeX.getText());
@@ -1087,6 +1088,7 @@ public void schreibenINI()
 	Vido3SizeX=Integer.parseInt(TFVido3SizeX.getText());
 	Vido3SizeY=Integer.parseInt(TFVido3SizeY.getText());
 	VideoLength=Integer.parseInt(TFVideoLaenge.getText());
+	 System.out.println("Schreiben Ini 2 " );
 	
     String s = SHome + "\\videos\\siOINI.txt";
     try {
