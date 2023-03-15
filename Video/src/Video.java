@@ -524,7 +524,7 @@ public void actionPerformed(ActionEvent arg0) {
 	*/
 	private static   void createAndShowGUI() {
 	// Create and set up the window.
-	JFrame frame = new JFrame("siOPTICA 2-Video Player");
+	JFrame frame = new JFrame("siOPTICA 2.1 -Video Player");
 	frame.setLayout(new FlowLayout());
 	frame.setSize(600, 450);
 	//frame.addKeyListener(this);
