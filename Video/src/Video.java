@@ -946,34 +946,37 @@ public void keyPressed(KeyEvent e) {
 	
 	if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 		System.out.println("Key Left"); 
-		
-		//mediaPlayerComponent1.mediaPlayer().controls().pause();		
-		//StopVideo();
-		mediaPlayerComponent2.mediaPlayer().controls().stop();		
-		FrameVideo2.dispose();
-		mediaPlayerComponent3.mediaPlayer().controls().stop();		
-		FrameVideo3.dispose();
-		
-		
-		
-		if(BildZaehler < 2)
-		{
-			
-			BildZaehler=4;
-		}
-		else
-		{
-			BildZaehler=BildZaehler-1;
-		}
-		System.out.println("Bild = " + BildZaehler); 
-		//StartVideo1();
-		//mediaPlayerComponent1.mediaPlayer().controls().play();	
-		StartVideo2();
-		StartVideo3();
 		if(CBTasten.isSelected())
 		{
-			TT3.start();		  
+					//mediaPlayerComponent1.mediaPlayer().controls().pause();		
+			//StopVideo();
+			mediaPlayerComponent2.mediaPlayer().controls().stop();		
+			FrameVideo2.dispose();
+			mediaPlayerComponent3.mediaPlayer().controls().stop();		
+			FrameVideo3.dispose();
+			
+			
+			
+			if(BildZaehler < 2)
+			{
+				
+				BildZaehler=4;
+			}
+			else
+			{
+				BildZaehler=BildZaehler-1;
+			}
+			System.out.println("Bild = " + BildZaehler); 
+			//StartVideo1();
+			//mediaPlayerComponent1.mediaPlayer().controls().play();	
+			StartVideo2();
+			StartVideo3();
+			if(CBTasten.isSelected())
+			{
+				TT3.start();		  
+			}
 		}
+	
 		
 		
 		
@@ -981,28 +984,34 @@ public void keyPressed(KeyEvent e) {
 	}
 	if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
 		System.out.println("Key right"); 
-		//mediaPlayerComponent1.mediaPlayer().controls().pause();		
-		mediaPlayerComponent2.mediaPlayer().controls().stop();		
-		FrameVideo2.dispose();
-		mediaPlayerComponent3.mediaPlayer().controls().stop();		
-		FrameVideo3.dispose();
-		if(BildZaehler <4)
-		{
-			BildZaehler=BildZaehler+1;
-		}
-		else
-		{
-			BildZaehler=1;
-		}
-		System.out.println("Bild = " + BildZaehler); 
 		
-		//mediaPlayerComponent1.mediaPlayer().controls().play();	
-		StartVideo2();
-		StartVideo3();
 		if(CBTasten.isSelected())
 		{
-			TT3.start();		  
+				//mediaPlayerComponent1.mediaPlayer().controls().pause();		
+			mediaPlayerComponent2.mediaPlayer().controls().stop();		
+			FrameVideo2.dispose();
+			mediaPlayerComponent3.mediaPlayer().controls().stop();		
+			FrameVideo3.dispose();
+			if(BildZaehler <4)
+			{
+				BildZaehler=BildZaehler+1;
+			}
+			else
+			{
+				BildZaehler=1;
+			}
+			System.out.println("Bild = " + BildZaehler); 
+			
+			//mediaPlayerComponent1.mediaPlayer().controls().play();	
+			StartVideo2();
+			StartVideo3();
+			if(CBTasten.isSelected())
+			{
+				TT3.start();		  
+			}
+			
 		}
+		
 		
 
 	}
@@ -1013,7 +1022,11 @@ public void keyPressed(KeyEvent e) {
 		{
 			mediaPlayerComponent1.mediaPlayer().controls().setPause(true);
 			mediaPlayerComponent2.mediaPlayer().controls().setPause(true);
-			mediaPlayerComponent3.mediaPlayer().controls().setPause(true);
+			if(CBTasten3.isSelected())
+			{
+				mediaPlayerComponent3.mediaPlayer().controls().setPause(true);
+			}
+			
 			Play =false;
 			System.out.println("Key space = true"); 
 		}
@@ -1022,7 +1035,11 @@ public void keyPressed(KeyEvent e) {
 			
 			mediaPlayerComponent1.mediaPlayer().controls().play();
 			mediaPlayerComponent2.mediaPlayer().controls().play();
-			mediaPlayerComponent3.mediaPlayer().controls().play();
+			if(CBTasten3.isSelected())
+			{
+				mediaPlayerComponent3.mediaPlayer().controls().play();
+			}
+			
 			Play =true;
 			System.out.println("Key space = false"); 
 			if(CBTasten.isSelected())
