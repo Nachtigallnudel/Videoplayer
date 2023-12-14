@@ -57,7 +57,7 @@ public class Video extends JPanel implements ActionListener, KeyListener   {
 	
 	private JButton startButton;
 	private JButton startButton2;
-	//private JButton manualButton; ok ok
+	//private JButton manualButton; ok ok ok
 	
 	
 	private JLabel LVido1PositionX;
